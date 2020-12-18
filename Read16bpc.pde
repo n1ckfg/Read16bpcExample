@@ -7,10 +7,11 @@ import java.awt.image.DataBufferUShort;
 import javax.imageio.ImageIO;
 
 class Read16bpc {
-  
+ 
   BufferedImage bImg;
+  short[] bPixels;
   PImage img;
-  short[] pixels;
+  
   int minVal;
   int maxVal;
   float minValF;
@@ -21,21 +22,21 @@ class Read16bpc {
     maxVal = 0;
     try {
         bImg = ImageIO.read(new File(dataPath(""), _url));
+        bPixels = ((DataBufferUShort) bImg.getRaster().getDataBuffer()).getData();
     } catch (IOException e) {
         e.printStackTrace();
     }
     
     if (normalize) {
-      bImagePixels();
+      bImageNormToPImage();
     } else {
       bImageToPImage();
     }
   }
   
-  void bImagePixels() {
-    pixels = ((DataBufferUShort) bImg.getRaster().getDataBuffer()).getData();
-    for (int i=0; i<pixels.length; i++) {
-      int val = (int) pixels[i];
+  void bImageNormToPImage() {
+    for (int i=0; i<bPixels.length; i++) {
+      int val = (int) bPixels[i];
       if (val < minVal) {
         minVal = val;
       } else if (val > maxVal) {
@@ -51,7 +52,7 @@ class Read16bpc {
     img.loadPixels();
     
     for (int i=0; i<img.pixels.length; i++) {
-      float valF = (float) pixels[i];
+      float valF = (float) bPixels[i];
 
       img.pixels[i] = color(map(valF, minValF, maxValF, 0, 255));
     }
