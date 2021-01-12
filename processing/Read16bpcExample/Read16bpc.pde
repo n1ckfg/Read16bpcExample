@@ -1,5 +1,6 @@
 // https://discourse.processing.org/t/16bit-grayscale-images/10795/3
 // https://processing.org/discourse/beta/num_1211845881.html
+// https://docs.oracle.com/javase/7/docs/api/java/awt/image/BufferedImage.html#TYPE_USHORT_GRAY
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
